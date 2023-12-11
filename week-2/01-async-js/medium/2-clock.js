@@ -8,19 +8,27 @@
 //  - HH:MM::SS AM/PM (Eg 01:45:23 PM)
 
 
-// setInterval(function(){
-//     const curr=new Date();
-//     console.log(curr.getHours()+":"+curr.getMinutes()+":"+curr.getSeconds());
-// },1000)
+// function simpleClock() {
+//   setInterval(function () {
+//     const curr = new Date();
+//     const timeString = `${curr.getHours()}:${curr.getMinutes()}:${curr.getSeconds()}`;
+//     process.stdout.write("\r" + timeString + "\t");
+//   }, 1000);
+// }
 
-function clock(){
+function formattedClock(){
     setInterval(function(){
         const curr = new Date();
         const hours = curr.getHours();
         const den = hours < 12 ? "AM" : "PM";
         const format = hours % 12;
-        console.log(format+":"+curr.getMinutes()+":"+curr.getSeconds()+" "+den);
+        const timeString = `${format}:${curr.getMinutes()}:${curr.getSeconds()} ${den}`;
+
+        // Clear the current line in the console using '\r' and then print the new time
+        process.stdout.write('\r' + timeString + "\t");
     },1000); 
 }
 
-clock();
+simpleClock();
+
+formattedClock();
