@@ -39,11 +39,79 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+// let allTodos = [
+//   {
+//     id: "1",
+//     title: "hello",
+//     description: "hello sagar welcome",
+//   },
   
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+// ];
+
+let allTodos=[];
+
+app.get("/todos", function (req, res) {
+  res.json(allTodos);
+});
+
+app.get("/todos/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  // console.log(id);
+  const todo=allTodos.find(t=> t.id===id)
+
+  if(todo){
+    res.json(todo);
+  }
+  else{
+    res.status(404).send();
+  }
+});
+
+app.post("/todos", function (req, res) {
+  // const todo = req.body;
+  const newTodo = {
+    id: Math.floor(Math.random() * 1000000),
+    title: req.body.title,
+    description: req.body.description,
+  };
+  allTodos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+
+app.put("/todos/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  const todoIndex = allTodos.findIndex(function (t) {
+    return t.id === id;
+  });
+  if (todoIndex === -1) {
+    res.status(404).send();
+  } else {
+    allTodos[todoIndex].title=req.body.title;
+    allTodos[todoIndex].description=req.body.description;
+    res.json(allTodos[todoIndex])
+  }
+});
+app.delete("/todos/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  const index = allTodos.findIndex(function (t) {
+    return t.id === id;
+  });
+  if (index != -1) {
+    allTodos.splice(index, 1);
+    res.status(200).send();
+  } else {
+    res.status(404).send();
+  }
+});
+
+// app.listen(3000);
+
+module.exports = app;
