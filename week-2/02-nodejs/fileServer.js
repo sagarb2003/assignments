@@ -17,5 +17,47 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+app.get('/files',function(req,res){
+  fs.readdir(
+    "C:/Users/Aarti/Desktop/100xdevs/assignments/week-2/02-nodejs/files",
+    "utf-8",
+    function (err, data) {
+      // console.log(data);
+      if (err) {
+        res.status(500).json({
+          msg: "Not found",
+        });
+      } else {
+        res.status(200).json({
+          allFiles: data,
+        });
+      }
+    }
+  );
+})
 
+app.get('/file/:fileName',function(req,res){
+  const name=req.params.fileName;
+  const filePath = path.join(
+    "C:/Users/Aarti/Desktop/100xdevs/assignments/week-2/02-nodejs/files"
+  ,name);
+  // console.log(name);
+  fs.readFile(filePath,'utf-8',function(err,data){
+    if (err) {
+      res.status(404).send(
+      "File not found"
+      );
+    } else {
+      res.status(200).send(
+        data
+      );
+    }
+  })
+})
+
+app.get('/invalid',function(req,res){
+  res.status(404).send("Route not found")
+})
+
+// app.listen(3000)
 module.exports = app;
