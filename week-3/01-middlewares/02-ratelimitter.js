@@ -16,6 +16,17 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+function rateLimitter(req,res,next){
+  let userId=req.headers['user-id'];
+  numberOfRequestsForUser[userId]=numberOfRequestsForUser[userId] || 0;
+  numberOfRequestsForUser[userId]++;
+  if(numberOfRequestsForUser[userId]>5){
+    res.status(404).json({});
+  }
+  next();
+}
+app.use(rateLimitter);
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
