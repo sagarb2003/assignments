@@ -1,12 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 const mongoose = require("mongoose");
-const app = express();
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 
 // Connect to MongoDB
-mongoose.connect(
-  "mongodb+srv://sagarb2003:Sagar1505@cluster0.ak0eh8h.mongodb.net/courseSelling"
-);
+
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
