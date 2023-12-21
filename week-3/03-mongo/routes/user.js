@@ -1,20 +1,55 @@
 const { Router } = require("express");
+const express = require("express");
+const app = express();
 const router = Router();
 const userMiddleware = require("../middleware/user");
+const { User, Course } = require("../db");
+// app.use(express.json())
 
 // User Routes
-app.post('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
     // Implement user signup logic
+    User.create({
+        username:req.body.username,
+        password:req.body.password,
+    })
+    res.json({
+        msg:"user created successfully"
+    })
 });
 
-app.get('/courses', (req, res) => {
+router.get('/courses', (req, res) => {
     // Implement listing all courses logic
+    Course.find().then(courses =>{
+        res.json({courses})
+    })
 });
 
-app.post('/courses/:courseId', userMiddleware, (req, res) => {
+router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
+    const selectCourseId=req.params.courseId;
+    Course.findOne({ "_id": selectCourseId }).then((selectCourse) => {
+      if (selectCourse) {
+        selectCourse.__v=1;
+        selectCourse.save().then(()=>{
+            res.json({selectCourse})
+        })
+      } else {
+        res.status(404).json({ msg: "Course not found" });
+      }
+    });
 });
 
-app.get('/purchasedCourses', userMiddleware, (req, res) => {
+router.get('/purchasedCourses', userMiddleware, (req, res) => {
     // Implement fetching purchased courses logic
+    Course.findOne({"__v":1}).then((selectCourse)=>{
+        if(selectCourse){
+            res.json({selectCourse})
+        } 
+        else{
+            res.json({msg:"No courses purchased"})
+        } 
+    })
 });
+
+module.exports = router;
