@@ -13,12 +13,21 @@ const z=require('zod');
 //  *                        Returns null if the username is not a valid email or
 //  *                        the password does not meet the length requirement.
 //  */
+
+  const emailSchema=z.string().email();
+  const passwordSchema=z.string().min(6);
 function signJwt(username, password) {
-   if(!(username.includes('@gmail.com')) || password.length !== 6 ){
-    return null;
+  const usernameResponse=emailSchema.safeParse(username);
+  const passwordResponse=passwordSchema.safeParse(password);
+   if(usernameResponse.success && passwordResponse.success) {
+    const token = jwt.sign(
+      { username, password },
+      jwtPassword
+    );
+    return token;
    }
-   const token=jwt.sign({username:username,password:password},jwtPassword);
-   return token;
+   return null;
+   
 }
 
 // /**
@@ -31,7 +40,7 @@ function signJwt(username, password) {
 //  */
 function verifyJwt(token) {
     try{
-        const decoded=jwt.verify(token,jwtPassword);
+        jwt.verify(token,jwtPassword);
         return true;
     }
     catch(error){
