@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 const jwtPassword = "secret";
 
 // Admin Routes
+<<<<<<< HEAD
 router.post("/signup", (req, res) => {
   // Implement admin signup logic
   Admin.create({
@@ -64,6 +65,22 @@ router.get("/courses", (req, res) => {
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });
   }
+=======
+router.post('/signup', (req, res) => {
+    // Implement admin signup logic
+});
+
+router.post('/signin', (req, res) => {
+    // Implement admin signup logic
+});
+
+router.post('/courses', adminMiddleware, (req, res) => {
+    // Implement course creation logic
+});
+
+router.get('/courses', adminMiddleware, (req, res) => {
+    // Implement fetching all courses logic
+>>>>>>> c428b9699bf630c5f3d6b445655d9717a893fd4c
 });
 
 module.exports = router;

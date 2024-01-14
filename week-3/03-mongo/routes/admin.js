@@ -38,6 +38,8 @@ router.get("/courses", adminMiddleware, (req, res) => {
   Course.find().then((courses) => {
     res.json({ courses });
   });
-});
+})
+
+
 
 module.exports = router;

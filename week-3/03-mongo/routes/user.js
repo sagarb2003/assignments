@@ -52,4 +52,8 @@ router.get('/purchasedCourses', userMiddleware, (req, res) => {
     })
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router
+>>>>>>> c428b9699bf630c5f3d6b445655d9717a893fd4c
