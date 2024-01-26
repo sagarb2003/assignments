@@ -1,0 +1,53 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.card{
+    /* height:360px;  */
+    width: 400px;
+    border:1px solid black;
+    text-align: center;
+    border-radius: 5px;
+}
+.imgDiv{
+    background-color: aqua;
+    position: relative;
+    height: 150px;
+
+}
+
+.imgDiv img{
+    position: relative;
+    top: 20px;
+    height:150px;
+    /* border-radius: 50%; */
+    margin: 10px 0px;
+    
+}
+.content-img{
+    padding-top:15px;
+}
+.name-and-age {
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+}
+.name-and-age h2{
+    padding-right: 5px;
+}
+.content-img p{
+    /* padding-bottom: 10px; */
+    margin-top: 0px;
+}
+
+.displayCount{
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid black;
+}
+
+
+.countItem{
+    text-align: center;
+}
+
